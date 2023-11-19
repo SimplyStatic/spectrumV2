@@ -62,7 +62,6 @@ wordlist = input(yellow + " > wordlist: " + reset)
 
 print()
 
-i=0
 print(blue, "> WHAT NUMBER SHOULD THE WORDLIST START AT?")
 i = input(yellow + " > #: " + reset)
 password = None
