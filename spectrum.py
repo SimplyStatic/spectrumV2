@@ -62,6 +62,10 @@ wordlist = input(yellow + " > wordlist: " + reset)
 
 print()
 
+i=0
+print(blue, "> WHAT NUMBER SHOULD THE WORDLIST START AT?")
+i = input(yellow + " > #: " + reset)
+j
 password = None
 
 def brute_force(user, password, wordlist):
@@ -109,7 +113,5 @@ def brute_force(user, password, wordlist):
             print()
             print(red + f"failed! password not found in {wordlist}" + reset)
 
-                                                                
-brute_force(user, password, wordlist)
 
-# CREATED BY SK KING
+brute_force(user, password, wordlist)
