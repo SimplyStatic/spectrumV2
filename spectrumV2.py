@@ -76,11 +76,11 @@ password = None
 
 def brute_force(user, password, wordlist, start_point=0):
     call(["clear"])
-    
+
     with open(wordlist, 'r') as f:
         words = f.readlines()
-        
-    for i, word in range(start_point, len(words)):
+
+    for i in range(start_point, len(words)):
         word = words[i].strip()
         print(adv, f"cracking account...",f"{i+1}/{len(words)}", reset)
         try: 
@@ -118,10 +118,10 @@ def brute_force(user, password, wordlist, start_point=0):
                 print()
                 print(green + f" success! password is {word}" + reset)
                 break
-            else:
+           else:
                 print()
                 print(red + f"failed! password not found in {wordlist}" + reset)
-          except Exception as e:
+        except Exception as e:
              print()
              print(red + f"Error: {e}. Pausing for user input..." + reset)
              input("Press Enter to resume...")
