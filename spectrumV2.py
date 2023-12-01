@@ -1,6 +1,7 @@
 import requests
 from colorama import Fore, Style, init
 import threading
+from subprocess import call
 
 init()
 
