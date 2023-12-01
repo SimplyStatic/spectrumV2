@@ -89,9 +89,10 @@ def brute_force_worker(user, session, wordlist, start_point, index, chunk_size=1
                     print(red + f" failed! password not found: {word}" + reset)
 
         except Exception as e:
-            print()
-            print(red + f" Error: {e}. Pausing for user input..." + reset)
-            input("Press Enter to resume...")
+           print()
+           print(red + f" Error: {e}. Response content: {response.content.decode('utf-8')}. Pausing for user input..." + reset)
+           input("Press Enter to resume...")
+
 
 def brute_force_parallel(user, wordlist, start_point, num_threads=4, chunk_size=10):
     global password
