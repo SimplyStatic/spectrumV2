@@ -75,6 +75,8 @@ except ValueError:
 i = input(yellow + " > #: " + reset)
 password = None
 
+progress_interval = 500 # Adjust to your preference
+
 def brute_force_worker(user, wordlist, start_point, index):
     global password
 
