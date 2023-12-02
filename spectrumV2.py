@@ -53,6 +53,19 @@ print()
 print()
 print()
 
+print(blue + " > DO NOT ADD THE '@'")
+user = input(yellow + " > user: " + reset)
+
+print()
+
+print(blue, "> IT MUST BE IN THIS DIRECTORY OR USE THE DEFAULT 'wordlist.txt'")
+wordlist = input(yellow + " > wordlist: " + reset)
+
+print()
+
+print(blue, "> WHAT NUMBER SHOULD THE WORDLIST START AT?")
+start_point = input(blue + " > Enter the starting point in the wordlist (e.g., 0 for the beginning): " + reset)
+
 try:
     start_point = int(start_point)
 except ValueError:
