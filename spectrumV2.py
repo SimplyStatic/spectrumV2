@@ -12,6 +12,18 @@ green = Fore.LIGHTGREEN_EX
 yellow = Fore.YELLOW
 magenta = Fore.LIGHTMAGENTA_EX
 
+print()
+print()
+print()
+
+adv = yellow + "[+]" + magenta
+
+call(["clear"])
+
+print()
+print()
+print()
+
 print("""⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣀⠀⠀⠀⠀⣀⣀⠀⠀⠀⠀⢀⣼⣷⣦⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣩⠙⢷⣦⠀⣴⣿⣿⠃⢀⣄⢠⡞⠉⠝⠩⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⢫⣿⢷⣾⣿⢛⣿⣿⠁⠀⠈⢹⠋⢠⣤⠀⣰⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -42,14 +54,6 @@ print()
 print("               https://github.com/sk-k1ng/spectrum" + reset)
 
 print(" ________________________________________________________________")
-
-print()
-print()
-print()
-
-adv = yellow + "[+]" + magenta
-
-call(["clear"])
 
 print()
 print()
