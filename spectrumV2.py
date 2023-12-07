@@ -80,7 +80,7 @@ def brute_force_worker(user, wordlist, start_point, index):
         words = f.readlines()[start_point:]
 
     for i, word in enumerate(words):
-        if index != 0 and i % index == 0  # Only process words that match the thread index
+        if index != 0 and i % index == 0:  # Only process words that match the thread index
             word = word.strip()
             if (i + 1) % progress_interval == 0:
                 print(adv, f"Thread {index} cracking account...", f"{i + 1}/{len(words)}", reset)
