@@ -116,8 +116,6 @@ def brute_force_parallel(user, wordlist, start_point, num_threads=4):
     for thread in threads:
         thread.join()
 
-user, password, wordlist, start_point = input(yellow + " > user: " + reset), None, input(yellow + " > wordlist: " + reset), input(blue + " > Enter the starting point in the wordlist (e.g., 0 for the beginning): " + reset)
-
 try:
     start_point = int(start_point)
 except ValueError:
